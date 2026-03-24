@@ -50,12 +50,7 @@ contract PiggyBankTest is Test {
         piggy_bank.deposit{value: 1 ether}();
         uint256 unlock_time = block.timestamp + 1 hours;
         piggy_bank.lock_funds(unlock_time);
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                PiggyBank.PiggyBank__FundsLocked.selector,
-                unlock_time
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(PiggyBank.PiggyBank__FundsLocked.selector, unlock_time));
         piggy_bank.withdraw(1 ether);
         vm.warp(unlock_time + 1 seconds);
         piggy_bank.withdraw(1 ether);

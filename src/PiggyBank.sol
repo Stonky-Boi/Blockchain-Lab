@@ -36,7 +36,7 @@ contract PiggyBank {
         }
         balances[msg.sender] -= amount;
         emit Withdrawn(msg.sender, amount);
-        (bool success, ) = msg.sender.call{value: amount}("");
+        (bool success,) = msg.sender.call{value: amount}("");
         if (!success) {
             revert PiggyBank__TransferFailed();
         }

@@ -13,11 +13,7 @@ contract MyToken {
     address public owner;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     error MyToken__InsufficientBalance();
     error MyToken__InsufficientAllowance();
@@ -38,8 +34,9 @@ contract MyToken {
 
     function transfer(address to, uint256 amount) public returns (bool) {
         if (to == address(0)) revert MyToken__InvalidAddress();
-        if (balanceOf[msg.sender] < amount)
+        if (balanceOf[msg.sender] < amount) {
             revert MyToken__InsufficientBalance();
+        }
         balanceOf[msg.sender] -= amount;
         balanceOf[to] += amount;
         emit Transfer(msg.sender, to, amount);
@@ -53,15 +50,12 @@ contract MyToken {
         return true;
     }
 
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) public returns (bool) {
+    function transferFrom(address from, address to, uint256 amount) public returns (bool) {
         if (to == address(0)) revert MyToken__InvalidAddress();
         if (balanceOf[from] < amount) revert MyToken__InsufficientBalance();
-        if (allowance[from][msg.sender] < amount)
+        if (allowance[from][msg.sender] < amount) {
             revert MyToken__InsufficientAllowance();
+        }
         allowance[from][msg.sender] -= amount;
         balanceOf[from] -= amount;
         balanceOf[to] += amount;

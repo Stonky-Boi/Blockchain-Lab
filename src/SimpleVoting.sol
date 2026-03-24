@@ -17,9 +17,7 @@ contract SimpleVoting {
 
     constructor(string[] memory candidate_names, uint256 duration_in_minutes) {
         for (uint256 i = 0; i < candidate_names.length; i++) {
-            candidates.push(
-                Candidate({name: candidate_names[i], voteCount: 0})
-            );
+            candidates.push(Candidate({name: candidate_names[i], voteCount: 0}));
         }
         voting_deadline = block.timestamp + (duration_in_minutes * 1 minutes);
     }
@@ -36,9 +34,7 @@ contract SimpleVoting {
         candidates[candidate_index].voteCount += 1;
     }
 
-    function getVoteCount(
-        uint256 candidate_index
-    ) public view returns (uint256) {
+    function getVoteCount(uint256 candidate_index) public view returns (uint256) {
         if (candidate_index >= candidates.length) {
             revert SimpleVoting__InvalidCandidate();
         }

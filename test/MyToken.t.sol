@@ -11,17 +11,13 @@ contract MyTokenTest is Test {
     address public bob = address(0x2);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     function setUp() public {
         token = new MyToken(1000 * 10 ** 18);
     }
 
-    function test_initial_supply_assigned_to_owner() public view{
+    function test_initial_supply_assigned_to_owner() public view {
         assertEq(token.balanceOf(owner), 1000 * 10 ** 18);
         assertEq(token.totalSupply(), 1000 * 10 ** 18);
     }

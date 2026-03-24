@@ -68,7 +68,7 @@ contract TodoListTest is Test {
         emit TaskDeleted(alice, 1);
         todo_list.delete_task(1);
         assertEq(todo_list.get_task_count(), 2);
-        (string memory content, ) = todo_list.get_task(1);
+        (string memory content,) = todo_list.get_task(1);
         assertEq(content, "Task 2");
         vm.stopPrank();
     }

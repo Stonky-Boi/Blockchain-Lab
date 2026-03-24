@@ -23,27 +23,17 @@ contract TodoList {
     }
 
     function create_task(string memory content) public {
-        user_tasks[msg.sender].push(
-            Task({content: content, is_completed: false})
-        );
+        user_tasks[msg.sender].push(Task({content: content, is_completed: false}));
         uint256 task_id = user_tasks[msg.sender].length - 1;
         emit TaskCreated(msg.sender, task_id, content);
     }
 
     function toggle_task(uint256 task_id) public valid_task_id(task_id) {
-        user_tasks[msg.sender][task_id].is_completed = !user_tasks[msg.sender][
-            task_id
-        ].is_completed;
-        emit TaskToggled(
-            msg.sender,
-            task_id,
-            user_tasks[msg.sender][task_id].is_completed
-        );
+        user_tasks[msg.sender][task_id].is_completed = !user_tasks[msg.sender][task_id].is_completed;
+        emit TaskToggled(msg.sender, task_id, user_tasks[msg.sender][task_id].is_completed);
     }
 
-    function get_task(
-        uint256 task_id
-    ) public view valid_task_id(task_id) returns (string memory, bool) {
+    function get_task(uint256 task_id) public view valid_task_id(task_id) returns (string memory, bool) {
         Task memory task = user_tasks[msg.sender][task_id];
         return (task.content, task.is_completed);
     }
