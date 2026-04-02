@@ -54,7 +54,7 @@ echo "====================================="
 # --- TIMEOUT CONFIGURATION (in seconds) ---
 MYTH_TIMEOUT=60
 ECHIDNA_TIMEOUT=60
-MCORE_TIMEOUT=120
+MCORE_TIMEOUT=60
 # ------------------------------------------
 
 echo " Running Slither (Static Analysis)"
