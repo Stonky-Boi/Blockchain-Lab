@@ -16,10 +16,14 @@ contract TodoList {
     error TodoList__InvalidTaskId();
 
     modifier validTaskId(uint256 taskId) {
+        _validTaskId(taskId);
+        _;
+    }
+
+    function _validTaskId(uint256 taskId) internal view {
         if (taskId >= userTasks[msg.sender].length) {
             revert TodoList__InvalidTaskId();
         }
-        _;
     }
 
     function createTask(string memory content) public {

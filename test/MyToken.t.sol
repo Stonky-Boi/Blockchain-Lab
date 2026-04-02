@@ -52,7 +52,7 @@ contract MyTokenTest is Test {
         token.approve(alice, 10 * 10 ** 18);
         vm.prank(alice);
         vm.expectRevert(MyToken.MyToken__InsufficientAllowance.selector);
-        token.transferFrom(owner, bob, 20 * 10 ** 18);
+        assertTrue(token.transferFrom(owner, bob, 20 * 10 ** 18));
     }
 
     function test_BonusMintIncreasesSupply() public {

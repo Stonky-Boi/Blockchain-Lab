@@ -10,10 +10,14 @@ contract SimpleStorage {
     error SimpleStorage__NotOwner();
 
     modifier onlyOwner() {
+        _onlyOwner();
+        _;
+    }
+
+    function _onlyOwner() internal view {
         if (msg.sender != owner) {
             revert SimpleStorage__NotOwner();
         }
-        _;
     }
 
     constructor() {

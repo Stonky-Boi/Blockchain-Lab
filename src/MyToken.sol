@@ -21,10 +21,14 @@ contract MyToken {
     error MyToken__InvalidAddress();
 
     modifier onlyOwner() {
+        _onlyOwner();
+        _;
+    }
+
+    function _onlyOwner() internal view {
         if (msg.sender != owner) {
             revert MyToken__NotOwner();
         }
-        _;
     }
 
     constructor(uint256 initialSupply) {
