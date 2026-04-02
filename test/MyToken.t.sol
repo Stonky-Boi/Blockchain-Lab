@@ -17,51 +17,51 @@ contract MyTokenTest is Test {
         token = new MyToken(1000 * 10 ** 18);
     }
 
-    function test_initial_supply_assigned_to_owner() public view {
+    function test_InitialSupplyAssignedToOwner() public view {
         assertEq(token.balanceOf(owner), 1000 * 10 ** 18);
         assertEq(token.totalSupply(), 1000 * 10 ** 18);
     }
 
-    function test_transfer_updates_balances_and_emits_event() public {
-        uint256 transfer_amount = 100 * 10 ** 18;
+    function test_TransferUpdatesBalancesAndEmitsEvent() public {
+        uint256 transferAmount = 100 * 10 ** 18;
         vm.expectEmit(true, true, false, true, address(token));
-        emit Transfer(owner, alice, transfer_amount);
-        assertTrue(token.transfer(alice, transfer_amount));
-        assertEq(token.balanceOf(alice), transfer_amount);
+        emit Transfer(owner, alice, transferAmount);
+        assertTrue(token.transfer(alice, transferAmount));
+        assertEq(token.balanceOf(alice), transferAmount);
         assertEq(token.balanceOf(owner), 900 * 10 ** 18);
     }
 
-    function test_approve_sets_allowance_and_emits_event() public {
-        uint256 approval_amount = 50 * 10 ** 18;
+    function test_ApproveSetsAllowanceAndEmitsEvent() public {
+        uint256 approvalAmount = 50 * 10 ** 18;
         vm.expectEmit(true, true, false, true, address(token));
-        emit Approval(owner, alice, approval_amount);
-        assertTrue(token.approve(alice, approval_amount));
-        assertEq(token.allowance(owner, alice), approval_amount);
+        emit Approval(owner, alice, approvalAmount);
+        assertTrue(token.approve(alice, approvalAmount));
+        assertEq(token.allowance(owner, alice), approvalAmount);
     }
 
-    function test_transfer_from_works_with_allowance() public {
-        uint256 approval_amount = 50 * 10 ** 18;
-        token.approve(alice, approval_amount);
+    function test_TransferFromWorksWithAllowance() public {
+        uint256 approvalAmount = 50 * 10 ** 18;
+        token.approve(alice, approvalAmount);
         vm.prank(alice);
-        assertTrue(token.transferFrom(owner, bob, approval_amount));
-        assertEq(token.balanceOf(bob), approval_amount);
+        assertTrue(token.transferFrom(owner, bob, approvalAmount));
+        assertEq(token.balanceOf(bob), approvalAmount);
         assertEq(token.allowance(owner, alice), 0);
     }
 
-    function test_revert_transfer_from_exceeds_allowance() public {
+    function test_RevertTransferFromExceedsAllowance() public {
         token.approve(alice, 10 * 10 ** 18);
         vm.prank(alice);
         vm.expectRevert(MyToken.MyToken__InsufficientAllowance.selector);
         token.transferFrom(owner, bob, 20 * 10 ** 18);
     }
 
-    function test_bonus_mint_increases_supply() public {
+    function test_BonusMintIncreasesSupply() public {
         token.mint(alice, 500 * 10 ** 18);
         assertEq(token.balanceOf(alice), 500 * 10 ** 18);
         assertEq(token.totalSupply(), 1500 * 10 ** 18);
     }
 
-    function test_revert_bonus_mint_not_owner() public {
+    function test_RevertBonusMintNotOwner() public {
         vm.prank(alice);
         vm.expectRevert(MyToken.MyToken__NotOwner.selector);
         token.mint(bob, 100 * 10 ** 18);

@@ -20,16 +20,16 @@ contract MyToken {
     error MyToken__NotOwner();
     error MyToken__InvalidAddress();
 
-    modifier only_owner() {
+    modifier onlyOwner() {
         if (msg.sender != owner) {
             revert MyToken__NotOwner();
         }
         _;
     }
 
-    constructor(uint256 initial_supply) {
+    constructor(uint256 initialSupply) {
         owner = msg.sender;
-        _mint(msg.sender, initial_supply);
+        _mint(msg.sender, initialSupply);
     }
 
     function transfer(address to, uint256 amount) public returns (bool) {
@@ -70,7 +70,7 @@ contract MyToken {
         emit Transfer(address(0), to, amount);
     }
 
-    function mint(address to, uint256 amount) public only_owner {
+    function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
 }

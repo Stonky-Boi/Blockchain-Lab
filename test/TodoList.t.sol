@@ -5,70 +5,70 @@ import {Test} from "forge-std/Test.sol";
 import {TodoList} from "../src/TodoList.sol";
 
 contract TodoListTest is Test {
-    TodoList public todo_list;
+    TodoList public todoList;
 
     address public alice = address(0x1);
     address public bob = address(0x2);
 
-    event TaskCreated(address indexed user, uint256 task_id, string content);
-    event TaskToggled(address indexed user, uint256 task_id, bool is_completed);
-    event TaskDeleted(address indexed user, uint256 task_id);
+    event TaskCreated(address indexed user, uint256 taskId, string content);
+    event TaskToggled(address indexed user, uint256 taskId, bool isCompleted);
+    event TaskDeleted(address indexed user, uint256 taskId);
 
     function setUp() public {
-        todo_list = new TodoList();
+        todoList = new TodoList();
     }
 
-    function test_create_task_and_get_count() public {
+    function test_CreateTaskAndGetCount() public {
         vm.startPrank(alice);
-        vm.expectEmit(true, false, false, true, address(todo_list));
+        vm.expectEmit(true, false, false, true, address(todoList));
         emit TaskCreated(alice, 0, "Learn Foundry");
-        todo_list.create_task("Learn Foundry");
-        assertEq(todo_list.get_task_count(), 1);
-        (string memory content, bool is_completed) = todo_list.get_task(0);
+        todoList.createTask("Learn Foundry");
+        assertEq(todoList.getTaskCount(), 1);
+        (string memory content, bool isCompleted) = todoList.getTask(0);
         assertEq(content, "Learn Foundry");
-        assertFalse(is_completed);
+        assertFalse(isCompleted);
         vm.stopPrank();
     }
 
-    function test_users_have_isolated_lists() public {
+    function test_UsersHaveIsolatedLists() public {
         vm.prank(alice);
-        todo_list.create_task("Alice's Task");
+        todoList.createTask("Alice's Task");
         vm.prank(bob);
-        todo_list.create_task("Bob's Task");
+        todoList.createTask("Bob's Task");
         vm.prank(alice);
-        assertEq(todo_list.get_task_count(), 1);
+        assertEq(todoList.getTaskCount(), 1);
         vm.prank(bob);
-        assertEq(todo_list.get_task_count(), 1);
+        assertEq(todoList.getTaskCount(), 1);
     }
 
-    function test_toggle_task_changes_status() public {
+    function test_ToggleTaskChangesStatus() public {
         vm.startPrank(alice);
-        todo_list.create_task("Write Tests");
-        vm.expectEmit(true, false, false, true, address(todo_list));
+        todoList.createTask("Write Tests");
+        vm.expectEmit(true, false, false, true, address(todoList));
         emit TaskToggled(alice, 0, true);
-        todo_list.toggle_task(0);
-        (, bool is_completed) = todo_list.get_task(0);
-        assertTrue(is_completed);
+        todoList.toggleTask(0);
+        (, bool isCompleted) = todoList.getTask(0);
+        assertTrue(isCompleted);
         vm.stopPrank();
     }
 
-    function test_revert_on_invalid_task_id() public {
+    function test_RevertOnInvalidTaskId() public {
         vm.startPrank(alice);
         vm.expectRevert(TodoList.TodoList__InvalidTaskId.selector);
-        todo_list.get_task(0);
+        todoList.getTask(0);
         vm.stopPrank();
     }
 
-    function test_delete_task_shifts_array() public {
+    function test_DeleteTaskShiftsArray() public {
         vm.startPrank(alice);
-        todo_list.create_task("Task 0");
-        todo_list.create_task("Task 1");
-        todo_list.create_task("Task 2");
-        vm.expectEmit(true, false, false, true, address(todo_list));
+        todoList.createTask("Task 0");
+        todoList.createTask("Task 1");
+        todoList.createTask("Task 2");
+        vm.expectEmit(true, false, false, true, address(todoList));
         emit TaskDeleted(alice, 1);
-        todo_list.delete_task(1);
-        assertEq(todo_list.get_task_count(), 2);
-        (string memory content,) = todo_list.get_task(1);
+        todoList.deleteTask(1);
+        assertEq(todoList.getTaskCount(), 2);
+        (string memory content,) = todoList.getTask(1);
         assertEq(content, "Task 2");
         vm.stopPrank();
     }

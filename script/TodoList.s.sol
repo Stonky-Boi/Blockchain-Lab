@@ -5,13 +5,13 @@ import {Script} from "forge-std/Script.sol";
 import {TodoList} from "../src/TodoList.sol";
 
 contract TodoListScript is Script {
-    TodoList public todo_list;
+    TodoList public todoList;
 
     function setUp() public {}
 
     function run() public {
         vm.startBroadcast();
-        todo_list = new TodoList();
+        todoList = new TodoList();
         vm.stopBroadcast();
     }
 }

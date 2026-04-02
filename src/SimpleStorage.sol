@@ -9,7 +9,7 @@ contract SimpleStorage {
 
     error SimpleStorage__NotOwner();
 
-    modifier only_owner() {
+    modifier onlyOwner() {
         if (msg.sender != owner) {
             revert SimpleStorage__NotOwner();
         }
@@ -21,10 +21,10 @@ contract SimpleStorage {
         owner = msg.sender;
     }
 
-    function set(uint256 new_value) public only_owner {
-        uint256 old_value = storedData;
-        storedData = new_value;
-        emit DataUpdated(old_value, new_value);
+    function set(uint256 newValue) public onlyOwner {
+        uint256 oldValue = storedData;
+        storedData = newValue;
+        emit DataUpdated(oldValue, newValue);
     }
 
     function get() public view returns (uint256) {

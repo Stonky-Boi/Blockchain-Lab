@@ -64,3 +64,19 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+## Docker? I hardly know her!
+
+Build the image.
+```
+docker build -t blockchain-lab-auditor .
+```
+Run the container.
+```
+docker run -it blockchain-lab-auditor
+```
+To reuse containers,
+```
+docker create -it --name auditor blockchain-lab-auditor
+docker start -ai auditor
+```

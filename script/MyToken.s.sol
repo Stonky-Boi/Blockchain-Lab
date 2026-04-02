@@ -11,8 +11,8 @@ contract MyTokenScript is Script {
 
     function run() public {
         vm.startBroadcast();
-        uint256 initial_supply = 1_000_000 * 10 ** 18;
-        token = new MyToken(initial_supply);
+        uint256 initialSupply = 1_000_000 * 10 ** 18;
+        token = new MyToken(initialSupply);
         vm.stopBroadcast();
     }
 }

@@ -5,8 +5,8 @@ import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract MyTokenBonus is ERC20, Ownable {
-    constructor(uint256 initial_supply) ERC20("MyToken", "MTK") Ownable(msg.sender) {
-        _mint(msg.sender, initial_supply);
+    constructor(uint256 initialSupply) ERC20("MyToken", "MTK") Ownable(msg.sender) {
+        _mint(msg.sender, initialSupply);
     }
 
     function mint(address to, uint256 amount) public onlyOwner {

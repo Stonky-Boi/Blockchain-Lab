@@ -5,13 +5,13 @@ import {Script} from "forge-std/Script.sol";
 import {PiggyBank} from "../src/PiggyBank.sol";
 
 contract PiggyBankScript is Script {
-    PiggyBank public piggy_bank;
+    PiggyBank public piggyBank;
 
     function setUp() public {}
 
     function run() public {
         vm.startBroadcast();
-        piggy_bank = new PiggyBank();
+        piggyBank = new PiggyBank();
         vm.stopBroadcast();
     }
 }
