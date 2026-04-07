@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.3;  // using older version to demonstrate wrapping
+pragma solidity ^0.8.3; // using older version to demonstrate wrapping
 
 contract IntegerOverflowVulnerable {
     mapping(address => uint256) public balances;

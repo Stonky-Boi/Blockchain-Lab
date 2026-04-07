@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 contract UninitializedProxy {
     address public implementation;
-    address public owner;  // storage collision risk
+    address public owner; // storage collision risk
 
     constructor(address _impl) {
         implementation = _impl;

@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 // Proxy
 contract DelegatecallCollisionProxy {
-    address public implementation;  // slot 0
+    address public implementation; // slot 0
     // ...
 
     fallback() external {
@@ -14,10 +14,10 @@ contract DelegatecallCollisionProxy {
 
 // Logic contract – will overwrite implementation address when init is called
 contract DelegatecallCollisionLogic {
-    address public owner;   // slot 0 – collides with implementation in proxy!
+    address public owner; // slot 0 – collides with implementation in proxy!
 
     function init(address _owner) external {
-        owner = _owner;     // overwrites proxy.implementation!
+        owner = _owner; // overwrites proxy.implementation!
     }
 
     function withdraw() external {

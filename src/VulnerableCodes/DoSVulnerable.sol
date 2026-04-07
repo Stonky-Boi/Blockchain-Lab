@@ -12,7 +12,7 @@ contract DoSVulnerable {
 
     function refundAll() external {
         // Gas cost grows with bidders.length; can become uncallable
-        for (uint i = 0; i < bidders.length; i++) {
+        for (uint256 i = 0; i < bidders.length; i++) {
             payable(bidders[i]).transfer(bids[bidders[i]]);
         }
     }
