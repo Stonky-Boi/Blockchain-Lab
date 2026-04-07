@@ -73,10 +73,6 @@ docker build -t blockchain-lab-auditor .
 ```
 Run the container.
 ```
-docker run -it blockchain-lab-auditor
-```
-To reuse containers,
-```
-docker create -it --name auditor blockchain-lab-auditor
+docker create -it --name auditor -v "$(pwd):/workspace/Blockchain-Lab" blockchain-lab-auditor
 docker start -ai auditor
 ```

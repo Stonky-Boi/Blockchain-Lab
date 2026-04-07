@@ -1,11 +1,9 @@
 FROM --platform=linux/amd64 ubuntu:22.04
 
-# Prevent interactive prompts during apt installations
 ENV DEBIAN_FRONTEND=noninteractive
-# Combine Foundry and pipx executable paths
 ENV PATH="/root/.foundry/bin:/root/.local/bin:${PATH}"
 
-# 1. Install system prerequisites (Added pipx here)
+# 1. Install system prerequisites
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -37,8 +35,6 @@ RUN pip3 install solc-select \
 # 4. Install Python-based tools in completely isolated environments!
 RUN pipx install slither-analyzer
 RUN pipx install mythril && pipx runpip mythril install -U "setuptools<70.0.0"
-RUN pipx install "manticore[native]" && pipx runpip manticore install -U "protobuf<=3.20.3" "setuptools<70.0.0" \
-    && sed -i 's/collections.Callable/collections.abc.Callable/g' /root/.local/pipx/venvs/manticore/lib/python3.10/site-packages/wasm/types.py
 RUN pipx install crytic-compile
 
 # 5. Install Node-based tools
@@ -53,14 +49,8 @@ RUN wget https://github.com/crytic/echidna/releases/download/v2.2.0/echidna-2.2.
 # 7. Install Tenderly CLI
 RUN curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh
 
-# 8. Set up the workspace and clone the repository
-WORKDIR /workspace
-# Using --recurse-submodules to grab forge-std and openzeppelin-contracts
-RUN git clone --recurse-submodules https://github.com/Stonky-Boi/Blockchain-Lab.git
+# 8. Set up the working directory (Code will be mounted here at runtime)
+WORKDIR /workspace/Blockchain-Lab
 
-# 9. Copy and set permissions for the execution script
-COPY setup.sh /workspace/setup.sh
-RUN chmod +x /workspace/setup.sh
-
-# Set the script as the default execution command
-ENTRYPOINT ["/workspace/setup.sh"]
+# 9. Set the script as the default execution command
+ENTRYPOINT ["bash", "run_tests.sh"]
